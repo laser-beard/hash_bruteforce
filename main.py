@@ -1,6 +1,7 @@
 from sys import argv
 from hashlib import md5
 from datetime import datetime
+import re
 
 # python main.py md5 hash.txt dict.txt
 
@@ -20,7 +21,7 @@ def write_result(chash, cpass):
 with open(hashfile) as file:
 	workhash = file.read()
 	workhash = workhash.replace('\n', '')
-	if len(workhash) != 32:
+	if re.match(r'^[0-9a-f]{32}$', workhash) is None:
 		print('This hash is Invalid! -', workhash)
 		write_result(workhash, cpass='[INVALID HASH]')
 		raise SystemExit
@@ -37,9 +38,6 @@ def generator(string):
 		else:
 			yield '[NO]' + password
 	return write_result(workhash, status)
-
-
-
 
 
 def encryption(string):
